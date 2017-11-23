@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -253,37 +254,117 @@ using namespace std;
 //}
 
 
+//
+//class Circle {
+//public:
+//	int *R, *Len;
+//	Circle() {};
+//	Circle(int R, int Len) {
+//		this->R = new int (R);
+//		this->Len = new int (Len);
+//	}
+//	~Circle() {
+//			delete R, Len;
+//		}
+//
+//	friend bool operator == (const Circle& d1, const Circle& d2);
+//	friend int operator > (const Circle& C1, const Circle& C2);
+//
+//};
+//
+//bool operator == (const Circle& C1, const Circle& C2) {
+//	if (*C1.R == *C2.R)  return true; 
+//	return false;
+//	}
+//
+//int operator > (const Circle& C1, const Circle& C2) {
+//	if (C1.R > C2.R)  return 1;
+//	return 0;
+//}
+//
+//void main(){
+//	Circle a(6, 25);
+//	Circle b(5, 25);
+//	cout << (a == b) << endl;
+//	cout << (b > a) << endl;
+//}
 
-class Circle {
-public:
-	int *R, *Len;
-	Circle() {};
-	Circle(int R, int Len) {
-		this->R = new int (R);
-		this->Len = new int (Len);
-	}
-	~Circle() {
-			delete R, Len;
-		}
 
-	friend bool operator == (const Circle& d1, const Circle& d2);
-	friend int operator > (const Circle& C1, const Circle& C2);
 
-};
+//дженерики - это шаблоны (generic template)  
+//template <class T> //bez raznitsi
+//template <typename T>
 
-bool operator == (const Circle& C1, const Circle& C2) {
-	if (*C1.R == *C2.R)  return true; 
-	return false;
-	}
+//
+//template <typename T>
+//T getAverageOfArrayElement(T a[], int size){
+//	T sum = 0;
+//	for (int i = 0; i < size; ++i) 
+//		sum += a[i];
+//	return sum / size;
+//}
+//
+//
+//
+//void main() {
+//
+//	int a[5] = { 1,2,3,4,5 };
+//	double b[5] = { 11.44,12.5,13.222,14.9,15.11111 };
+//	float c[5] = { 6.2, 7.5, 8.9, 9.44, 10.3 };
+//	char d[5] = { 'a','b','c','d','e' };
+//
+//	cout  << "\n\t\t\tint - " << setw(10) << getAverageOfArrayElement(a, 5) << endl;
+//	cout  << "\n\t\t\tdouble - " << setw(10) << getAverageOfArrayElement(b, 5) << endl;
+//	cout  << "\n\t\t\tfloat - " << setw(10) << getAverageOfArrayElement(c, 5) << endl;
+//	cout  << "\n\t\t\tchar - " << setw(10) << (int)(getAverageOfArrayElement(d, 5)) << "\n\n\n\n";
+//	
+//}
 
-int operator > (const Circle& C1, const Circle& C2) {
-	if (C1.R > C2.R)  return 1;
-	return 0;
+
+template <typename T>
+T getMinimumOfArrayElement(T a[], int size){
+	if (size < 1) cout << "\n\t\tArray is emty\n\n\n";
+		T min = a[0];
+	for (int i = 0; i < size; ++i)
+		if (min > a[i])
+			min = a[i];
+	return min;
 }
 
-void main(){
-	Circle a(6, 25);
-	Circle b(5, 25);
-	cout << (a == b) << endl;
-	cout << (b > a) << endl;
+template <typename T>
+T getMaxmumOfArrayElement(T a[], int size) {
+	if (size < 1) cout << "\n\t\tArray is emty\n\n\n";
+	T max = a[0];
+	for (int i = 0; i < size; ++i)
+		if (max < a[i])
+			max = a[i];
+	return max;
 }
+
+template <typename T>
+void getSortOfArrayElement( T a[], const int size) {
+	if (size < 1) cout << "\n\t\tArray is emty\n\n\n";
+	cout << "\n\t\t\t          ARRAY\n\t\t      ";
+	for (int i = 0; i < size; i++)
+		cout << setw(3) << " | " << a[i] << " ";
+	cout << "|\n\t\t      ------------------------------\n\t\t\t           SORT";
+	//-------------------------------------------------------
+	for (int j = 0; j < size ; ++j)
+	for (int i = 0; i < size - 1; ++i)
+		if (a[i] > a[i+1])
+			swap(a[i], a[i+1]);
+	cout << "\n\t\t      ";
+	for (int i = 0; i < size; i++)
+		cout << setw(3) << " | " << a[i] << " ";
+	cout << "|\n\t\t      ------------------------------\n";
+}
+
+void main() {
+	int a[5] = { 11,24,3,41,5 };
+	getSortOfArrayElement(a,5);
+	cout << "\n\t\t\tMIN    - " << setw(5) << getMinimumOfArrayElement(a, 5)  << endl;
+	cout << "\n\t\t\tMAX    - " << setw(5) << getMaxmumOfArrayElement(a, 5) <<"\n\n\n"<< endl;
+}
+
+
+

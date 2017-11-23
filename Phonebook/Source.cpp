@@ -287,3 +287,6 @@ void main(){
 	cout << (a == b) << endl;
 	cout << (b > a) << endl;
 }
+
+void main() {
+}

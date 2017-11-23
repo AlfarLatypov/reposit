@@ -359,11 +359,22 @@ void getSortOfArrayElement( T a[], const int size) {
 	cout << "|\n\t\t      ------------------------------\n";
 }
 
+template <typename T>
+T getFindOfArrayElement(T a[], int size, int x ) {
+	if (size < 1) cout << "\n\t\tArray is emty\n\n\n";
+	
+	for (int i = 0; i < size; ++i)
+		if (x == a[i])
+			return x;
+	cout << "\n\t\t\t\t404 NOT FIND\n\n\n";
+}
+
 void main() {
 	int a[5] = { 11,24,3,41,5 };
 	getSortOfArrayElement(a,5);
 	cout << "\n\t\t\tMIN    - " << setw(5) << getMinimumOfArrayElement(a, 5)  << endl;
-	cout << "\n\t\t\tMAX    - " << setw(5) << getMaxmumOfArrayElement(a, 5) <<"\n\n\n"<< endl;
+	cout << "\n\t\t\tMAX    - " << setw(5) << getMaxmumOfArrayElement(a, 5)  << endl;
+	getFindOfArrayElement(a, 5, 44);
 }
 
 

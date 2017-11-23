@@ -281,7 +281,7 @@ int operator > (const Circle& C1, const Circle& C2) {
 	return 0;
 }
 
-void main()    {
+void main(){
 	Circle a(6, 25);
 	Circle b(5, 25);
 	cout << (a == b) << endl;

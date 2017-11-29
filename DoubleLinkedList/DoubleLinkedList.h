@@ -10,10 +10,16 @@ public:
 	Node<T> *first, *last; //списку надо знать первый и последний элемент всего списка
 
 	//пустой конструктор для создания двусвязного списка
+	
 	DoubleLinkedList();
-	~DoubleLinkedList();
 
-	void add(const T &);
+	~DoubleLinkedList();
+	template<typename T>
+	void addToLast(const T &);
+	template<typename T>
+	void addToFirst(const T &);
+	//template<typename T>
+	//void show();
 
 };
 

@@ -1,16 +1,16 @@
 #pragma once
 
-template< typename T >
+//template< typename T >
 class Node
 {
 public:
-	T value;
-	Node<T> *prev, *next;
+	int value;
+	Node *prev, *next;
 
 	
 	Node();
 	
-	Node(const T&);
+	Node(const int&);
 
 	
 	~Node();

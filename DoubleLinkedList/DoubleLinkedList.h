@@ -3,23 +3,23 @@
 //описание класса двусвяный список и прототипы его ф-ций 
 
 
-template< typename T > 
+//template< typename T > 
 class DoubleLinkedList
 {
 public:
-	Node<T> *first, *last; //списку надо знать первый и последний элемент всего списка
+	Node *first, *last; //списку надо знать первый и последний элемент всего списка
 
 	//пустой конструктор для создания двусвязного списка
 	
 	DoubleLinkedList();
 
 	~DoubleLinkedList();
-	template<typename T>
-	void addToLast(const T &);
-	template<typename T>
-	void addToFirst(const T &);
 	//template<typename T>
-	//void show();
+	void addToLast(const int &);
+	//template<typename T>
+	void addToFirst(const int &);
+	//template<typename T>
+	void show();
 
 };
 

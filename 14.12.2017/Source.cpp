@@ -1,3 +1,7 @@
+#include <cereal/types/unordered_map.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/archives/binary.hpp>
+
 #include <cstring>
 #include <string>
 #include <iostream>
@@ -101,45 +105,88 @@ using namespace std;
 //	system("pause");
 //}
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
-void main() {
-	ifstream fin("file.txt");
-	string str;
-
-	if (fin.is_open()) {
-		while (getline(fin,str))
-		{
-		cout << endl << endl << str << endl << endl << endl << endl;//t >> str;
-		}
-	} fin.close();
-		
-	
-	getline(cin, str);
-		ofstream fout;
-		fout.open("file.txt");
-		//fout.open("file.txt", ios::app);
-	
-		if (fout.is_open()) {
-			
-			fout << str ;
-		}
-	fout.close();
-		
-	/*ofstream o;
-	string s;
-	while (getline(cin, str)) {
-		if (str != "exit") {
-			o << s;
-		}
-		else break;
-	} o.close();*/
-	
-}
+//void main() {
+//	ifstream fin("file.txt");
+//	string str;
+//
+//	if (fin.is_open()) {
+//		while (getline(fin,str))
+//		{
+//		cout << endl << endl << str << endl << endl << endl << endl;//t >> str;
+//		}
+//	} fin.close();
+//		
+//	
+//	getline(cin, str);
+//		ofstream fout;
+//		fout.open("file.txt");
+//		//fout.open("file.txt", ios::app);
+//	
+//		if (fout.is_open()) {
+//			
+//			fout << str ;
+//		}
+//	fout.close();
+//	//////////////////////////////////////////////////////////////	
+//	/*ofstream o;
+//	string s;
+//	while (getline(cin, str)) {
+//		if (str != "exit") {
+//			o << s;
+//		}
+//		else break;
+//	} o.close();
+//	cout << endl << endl << s << endl;*/
+//}
 //t.eof
 
 
 
+struct MyRecord //есть запись 
+{
+	uint8_t x, y; //два инта 8ми битных  (обычный 32 бита)
+	float z; // один флот 
 
+	template <class Archive>
+	void serialize(Archive & ar) //есть метот сериалайз в который посылаем архив (архив это потомк)
+	{
+		ar(x, y, z);
+	}
+};
+
+struct SomeData // какие то данные
+{
+	int32_t id;
+	std::shared_ptr<std::unordered_map<uint32_t, MyRecord>> data; //сохраняет все в формате хэш таблицы (ключ инт 32 а значение MyRecord)
+
+	template <class Archive> 
+	void save(Archive & ar) const //метод сохранения данных 
+	{
+		ar(data);
+	}
+
+	template <class Archive>
+	void load(Archive & ar) //метод загрузки 
+	{
+		static int32_t idGen = 0; //айди генератор
+		id = idGen++; //для дозаписывания данных в архив
+		ar(data);
+	}
+};
+
+int main()
+{
+	std::ofstream os("out.cereal", std::ios::binary); //сoздал ofstream и в бинарном формате
+ //cereal:: - это нэймспэйс, класс BinaryOutputArchive от которого создали объект archive с названием потока os
+	cereal::BinaryOutputArchive archive(os); 
+
+	SomeData myData;
+	archive(myData);
+
+	return 0;
+}
 
 
 

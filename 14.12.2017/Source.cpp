@@ -1,7 +1,8 @@
 #include <cereal/types/unordered_map.hpp>
 #include <cereal/types/memory.hpp>
-#include <cereal/archives/binary.hpp>
 
+#include <cereal/archives/xml.hpp>
+#include <cereal/types/vector.hpp>
 #include <cstring>
 #include <string>
 #include <iostream>
@@ -142,57 +143,76 @@ using namespace std;
 //}
 //t.eof
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+//struct MyRecord //есть запись 
+//{
+//	uint8_t x, y; //два инта 8ми битных  (обычный 32 бита)
+//	float z; // один флот 
+//
+//	template <class Archive>
+//	void serialize(Archive & ar) //есть метот сериалайз в который посылаем архив (архив это потомк)
+//	{
+//		ar(x, y, z);
+//	}
+//};
+//
+//struct SomeData // какие то данные
+//{
+//	int32_t id;
+//	std::shared_ptr<std::unordered_map<uint32_t, MyRecord>> data; //сохраняет все в формате хэш таблицы (ключ инт 32 а значение MyRecord)
+//
+//	template <class Archive> 
+//	void save(Archive & ar) const //метод сохранения данных 
+//	{
+//		ar(data);
+//	}
+//
+//	template <class Archive>
+//	void load(Archive & ar) //метод загрузки 
+//	{
+//		static int32_t idGen = 0; //айди генератор
+//		id = idGen++; //для дозаписывания данных в архив
+//		ar(data);
+//	}
+//};
+//
+//int main()
+//{
+//	std::ofstream os("out.cereal", std::ios::binary); //сoздал ofstream и в бинарном формате
+// //cereal:: - это нэймспэйс, класс BinaryOutputArchive от которого создали объект archive с названием потока os
+//	cereal::BinaryOutputArchive archive(os); 
+//
+//	SomeData myData;
+//	archive(myData);
+//
+//	return 0;
+//}
+//
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+//void main() {
+//
+//	cereal::XMLOutputArchive archive(std::cout);
+//	bool arr[] = { true, false };
+//	std::vector<int> vec = { 1, 2, 3, 4, 5 };
+//	archive(CEREAL_NVP(vec), arr);
+//}
 
 
-struct MyRecord //есть запись 
-{
-	uint8_t x, y; //два инта 8ми битных  (обычный 32 бита)
-	float z; // один флот 
 
-	template <class Archive>
-	void serialize(Archive & ar) //есть метот сериалайз в который посылаем архив (архив это потомк)
-	{
-		ar(x, y, z);
-	}
-};
-
-struct SomeData // какие то данные
-{
-	int32_t id;
-	std::shared_ptr<std::unordered_map<uint32_t, MyRecord>> data; //сохраняет все в формате хэш таблицы (ключ инт 32 а значение MyRecord)
-
-	template <class Archive> 
-	void save(Archive & ar) const //метод сохранения данных 
-	{
-		ar(data);
-	}
-
-	template <class Archive>
-	void load(Archive & ar) //метод загрузки 
-	{
-		static int32_t idGen = 0; //айди генератор
-		id = idGen++; //для дозаписывания данных в архив
-		ar(data);
-	}
-};
+#include <iostream>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/vector.hpp>
 
 int main()
 {
-	std::ofstream os("out.cereal", std::ios::binary); //сoздал ofstream и в бинарном формате
- //cereal:: - это нэймспэйс, класс BinaryOutputArchive от которого создали объект archive с названием потока os
-	cereal::BinaryOutputArchive archive(os); 
+	std::ofstream fout ("out.xml");
+	//cereal::JSONOutputArchive archive(std::cout); //
+	cereal::JSONOutputArchive archive(fout);
+	bool arr[] = { true, false };
+	std::vector<int> vec = { 'J', 'O', 'P', 'A', 5 };
+	archive(CEREAL_NVP(vec), arr);
 
-	SomeData myData;
-	archive(myData);
-
-	return 0;
 }
-
-
-
-
-
-
-
-
-

@@ -286,71 +286,82 @@
 
 
 
+//
+//#include<iostream>
+//#include<fstream>
+//#include<string>
+//
+//using namespace std;
+//
+//class A {
+//public:
+//	int value;
+//	friend std::ostream & operator << (std::ostream &stream, A& a);
+//	friend std::istream & operator << (std::istream &stream, A& a);
+//
+//};
+//
+//std::ostream & operator << (std::ostream &stream, A& a)
+//{
+//	stream << a.value;
+//	return stream;
+//}
+//
+//std::istream & operator >> (std::istream &stream, A& a)
+//{
+//	stream >> a.value;
+//	return stream;
+//}
+//
+//int main() {
+//	A a ;
+//	/*a.value = 5;
+//	std::ofstream fout;
+//	fout.open("File.txt");
+//	fout << a;
+//	fout.close();*/
+//
+//	std::ifstream fin;
+//	fin.open("File.txt");
+//	fin >> a;
+//	cout << a << endl;
+//	fin.close();
+//
+//	return 0;
+//}
 
-#include<iostream>
-#include<fstream>
-#include<string>
 
-using namespace std;
+////STRING
+//
+//#include<iostream>
+//#include<fstream>
+//#include<string>
+//
+//using namespace std;
+//
+//
+//void main() {
+//	string s, x ="123";
+//	s += "hello"; //добавить в конец
+//	swap(s, x);
+//	reverse(s.begin(), s.end());
+//	reverse(x.begin(), x.end());
+//	cout << s << " " << x<<endl;
+//
+//
+//}
 
-string menu() {
-	string path;
-	cout << "\n\t\t\t Please enter name file - ";
-	getline(cin, path);
 
-	return path;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//SMART POINTERS УМНЫЕ УКАЗАТЕЛИ
+
+
+
+
+
+void main() {
+
+
 }
-
-
-
-void main()
-{
-
-	int choice;
-	string str, find, fpath = menu();
-	size_t pos;
-
-	while (true) {
-		system("cls");
-		cout << "\n\t--------------<< M E N U >>--------------\n";
-		cout << "\n\t[ 1 ] - Push 1 to display the file on the screen"; //¦ Отображение файла на экран
-		cout << "\n\t[ 2 ] - Push 2 to enter data into the file";  //¦ Замена строки на новую строку 
-		cout << "\n\t[ 3 ] - Push 3 to add into file";  //¦ Добписать строки в файл 
-		cout << "\n\t[ 4 ] - Push 4 to find in the file";  //¦ Поиск заданной строки
-		cout << "\n\t[ 5 ] - Push 5 to reverse the file";  //¦ Переворот содержимого файла
-		cout << "\n\t[ 0 ] - Push 0 to EXIT";  //¦ EXIT
-
-
-
-		cout << "\n\n\t     Your choice is - "; cin >> choice;
-
-		ifstream fin(fpath);
-		ofstream fout;
-
-		switch (choice)
-		{
-		case 1:
-			if (fin.is_open())
-				while (getline(fin, str)) { system("cls"); cout << endl << endl << "\t\t" << str << endl << endl << endl << endl; } //¦ Отображение файла на экран
-			else cout << "Ne otkruli";	 system("pause"); break;
-		case 2: fout.open(fpath); cin >> str;//getline(cin, str);                     //¦ Замена строки на новую строку 
-			if (fout.is_open()) { fout << str; }  break;
-		case 3: fout.open(fpath, ios::app); cin >> str;                              //¦ Добписать строки в файл 
-			if (fout.is_open()) { fout << str; }  break;
-		case 4: system("cls");                                                      //¦ Поиск заданной строки
-			cout << "\n\t\twhat to look for? - "; cin >> find;
-			pos = str.find(find);
-			while (getline(fin, str)) { system("cls"); cout << endl << endl << "\t\t" << str << endl; }
-			if (pos != string::npos) { cout << "\n\t\tFound at pos = " << pos + 1 << "\n"; system("pause"); }
-			else { std::cout << "\n\t\tNot found\n"; system("pause"); }
-			break;
-		case 5: system("cls"); cout << "\n\t\t";
-			for (int i = str.size() - 1; i >= 0; --i)
-				std::cout << str[i]; cout << "\n\n"; system("pause"); break;
-		case 0: fin.close(); fout.close(); return;
-
-		}
-	}
-}
-
 

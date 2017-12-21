@@ -4,10 +4,25 @@
 #include <list>
 #include <map>
 #include <string>
+#include <functional>
+
+class comparator {
+public:
+	bool operator()(int x, int y) {
+		return x < y;
+	}
+};
+
+
+bool compare(int x, int y) {
+	return x < y;
+}
+
 void Vector() {
 	int arr[10] = { 1,2,3,4,5,6,7,8,9,0 };
 	std::vector <int> x(arr, arr + 10);
-	std::vector <int> ::iterator it = x.begin(); // iterator íåîáõîäèì äëÿ áåãà ïî ìàññèâó, ÷òîá íå âûøåë èç äåàïàçîíà
+	sort(x.begin(), x.end(), compare); //less (po vozrastaniu), greater(po ubuvaniu) //std::greater<int>()
+	std::vector <int> ::iterator it = x.begin(); // iterator 
 	for (; it != x.end(); ++it)
 	{
 		std::cout << *it << '\t';
@@ -59,6 +74,26 @@ void Multimap() {
 int main() {
 
 	//List();
-	Multimap();
+	//Multimap();
+	Vector();
 	return 0;
 }
+
+//funktoru
+//MQ -message Queue
+
+/*
+Rabbit MQ                          -- eto o4ered
+
+RDBMS - v vide tablits(listov)    --baza dannuh
+
+Aerospice, Redis - v vide mapa     --sortiruut
+
+Neo4J - baza dannuh hranit v vide grafov
+
+
+
+
+
+
+*/

@@ -148,6 +148,7 @@
 #include <string>
 #include <functional>
 #include <time.h>
+#include <fstream>
 using namespace std;
 //*Задание 2
 //Есть файл с данными о названиях стран и городов.
@@ -163,67 +164,194 @@ using namespace std;
 //При программировании приложения обязательно используйте механизм лямбд.*/
 
 
+//MOI VARIANT
+//class City {
+//public:
+//	string name;
+//	City() {}
+//	~City() {}
+//
+//};
+//
+//
+//
+//class Country : public City {
+//public:
+//string Country_name;
+//class goroda {
+//	public:
+//		string Country;
+//		goroda(string &Country) {
+//			this->Country = Country;}
+//			~goroda() {}
+//};
+//	vector<goroda> *Citys;
+//	Country() {
+//		Citys = new vector<goroda>();
+//		Citys->reserve(20);}
+//		~Country() {}
+//	void addGoroda(string value) {
+//		this->Country_name = value;
+//		Citys->push_back(*(new goroda(value)));
+//}
+//	
+//	void printgoroda(Country *Country) {
+//		for (int i = 0; i < Country->Citys->size(); i++) {
+//			if (i < Country->Citys->size() - 1)
+//				cout << Country->Citys->at(i).Country << ", ";
+//			else cout << Country->Citys->at(i).Country << endl;
+//	}
+//		cout << endl;
+//	}
+//	friend void show(Country &);
+//};
+//
+//
+//inline void show(Country &Country) {
+//	cout << "\n\tCountry - " << Country.name
+//		<< "\n\tCitys - ";
+//		Country.printgoroda(&Country);
+//}
+//
+//
+//
+//
+//void main() {
+//	Country *a;
+//	a = new Country();
+//	a->name = "Kazakhstan";
+//	a->addGoroda("Almaty");
+//	a->addGoroda("Karaganda");
+//	a->addGoroda("Taraz");
+//	show(*a);
+//
+//	delete a;
+//
+//}
 
-class City {
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Variant Muslima
+
+class City
+{
 public:
-	string name;
-	City() {}
-	~City() {}
+	std::string country;
+	std::string name;
+	City(std::string country, std::string name)
+	{
+		this->country = country;
+		this->name = name;
+	}
+	friend std::ostream & operator <<(std::ostream & stream, City & city);
+	friend bool operator == (const City & city1, const City & city2);
+
 
 };
-
-
-
-class Country : public City {
-public:
-string Country_name;
-class goroda {
-	public:
-		string Country;
-		goroda(string &Country) {
-			this->Country = Country;}
-			~goroda() {}
-};
-	vector<goroda> *Citys;
-	Country() {
-		Citys = new vector<goroda>();
-		Citys->reserve(20);}
-		~Country() {}
-	void addGoroda(string value) {
-		this->Country_name = value;
-		Citys->push_back(*(new goroda(value)));
+//peregruzili == dlyq sravneniya objectov
+ bool operator == (const City & city1, const City & city2)
+{
+	 return city1.name == city2.name && city1.country == city2.country;
 }
+
+
+
+std::ostream & operator <<(std::ostream & stream, City & city) {
+	return stream << city.country << ' ' << city.name << std::endl;
+}
+
+class Manager {
+public:
+	std::vector<City> cities;
+	Manager() {
+		City city("Russia", "Moscow");
+		cities.push_back(city);
+		City city1("Russia", "Omsk");
+		cities.push_back(city1);
+	}
+	void writeToFile() {
+		std::ofstream out("countries.txt");
+		std::for_each(cities.begin(), cities.end(), [&out](City & city)
+		{
+			if (out.is_open())
+			{
+				out << city;
+			}
+		});
+		out.close();
+	}
+	void readFromFile() {
+		std::ifstream in("countries.txt");
+		if (in.is_open()) {
+			while (in.eof()) {
+				std::string s;
+				std::getline(in, s);
+				int position = s.find_first_of(' ');
+				cities.push_back(
+					City(
+						std::string{ s.begin(), s.begin() + position },
+						std::string{ s.begin() + position + 1, s.end() }
+					)
+				);
+			}
+		}
+	}
+	friend std::ostream & operator <<(std::ostream & stream, Manager & manager);
 	
-	void printgoroda(Country *Country) {
-		for (int i = 0; i < Country->Citys->size(); i++) {
-			if (i < Country->Citys->size() - 1)
-				cout << Country->Citys->at(i).Country << ", ";
-			else cout << Country->Citys->at(i).Country << endl;
+
+
+	//poisk po strane
+	void filter(string &filter) {
+
+		for_each(cities.begin(), cities.end(), [&filter](City & city)
+		{
+			if (filter == city.country)
+				cout << "\t" << city.name; });
+
+		}
+
+	//starui sposob
+		/*for (int i = 0; i < cities.size(); i++) {
+			if (filter == cities.at(i).country) {
+				cout << "\n" << cities.at(i).name << " ";
+			}
+			else cout << cities.at(i).name << endl;
+		}*/
+	
+
+	//zamena goroda
+	void remove(City &old, City &city_new) {
+		std::replace(cities.begin(), cities.end(), old, city_new);
+
 	}
-		cout << endl;
-	}
-	friend void show(Country &);
+	
 };
 
-
-inline void show(Country &Country) {
-	cout << "\n\tCountry - " << Country.name
-		<< "\n\tCitys - ";
-		Country.printgoroda(&Country);
+std::ostream & operator <<(std::ostream & stream, Manager & manager) {
+	std::for_each(manager.cities.begin(), manager.cities.end(), [&stream](City & city) {
+		stream << city;
+	});
+	return stream;
 }
 
 
+int main() {
+	Manager m;
+	m.writeToFile();
+	m.readFromFile();
+	std::cout << m;
+	string f = "Russia";
+	m.filter(f);
+	cout << "\n\n\n";
 
 
-void main() {
-	Country *a;
-	a = new Country();
-	a->name = "Kazakhstan";
-	a->addGoroda("Almaty");
-	a->addGoroda("Karaganda");
-	a->addGoroda("Taraz");
-	show(*a);
+	City d1("Russia", "Omsk");
+	City d2("Russia", "Orel");
+	m.remove(d1, d2);
+	m.filter(f);
+	cout << "\n\n\n";
 
-	delete a;
 
+	return 0;
 }
+
